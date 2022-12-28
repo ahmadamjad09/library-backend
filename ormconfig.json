@@ -1,0 +1,20 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "database": "author_books",
+    "username": "postgres",
+    "password": "1234",
+    "charset": "utf8mb4_unicode_ci",
+    "entities": [
+      "dist/**/*.entity.js"
+    ],
+    "synchronize": false,
+    "migrations": [
+      "dist/migration/*.js"
+    ],
+    "cli": {
+      "migrationsDir": "src/migration"
+    },
+    "migrationsRun": true
+  }
