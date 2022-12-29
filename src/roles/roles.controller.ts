@@ -44,7 +44,7 @@ export class RolesController {
     }
 
     @Post("/add")
-    @UseGuards(Admin_Authorization_Guard)
+    // @UseGuards(Admin_Authorization_Guard)
     async addRole(@Res() response:Response,@Body() body:any):Promise<any> {
         try{
             let data:any = await this.rolesService.addRole(body)
