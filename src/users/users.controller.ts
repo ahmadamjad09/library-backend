@@ -3,7 +3,7 @@ import {Response} from 'express'
 import { Role } from 'src/enums/enums';
 import { Admin_Authorization_Guard, Admin_Author_Authorization_Guard } from 'src/Guards/authorization_guard';
 import { UsersService } from './users.service';
-import { UserRoles } from '../Guards/decorators/user_decorator.entity';
+import { UserRoles } from './user_decorator.entity';
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 @Controller('users')
