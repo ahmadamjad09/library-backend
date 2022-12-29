@@ -26,7 +26,7 @@ export class UsersService {
         }
 
         async getUserByEmail(email:any): Promise<any> {
-            return await this.usersRep.findOne({where:{email:email},relations:["role_id"]})
+            return await this.usersRep.findOne({where:{email:email,is_active:1},relations:["role_id"]})
         }
     
         async addUser(data:any): Promise<any> {
