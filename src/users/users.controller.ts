@@ -4,12 +4,15 @@ import { Role } from 'src/enums/enums';
 import { Admin_Authorization_Guard, Admin_Author_Authorization_Guard } from 'src/Guards/authorization_guard';
 import { UsersService } from './users.service';
 import { UserRoles } from './user_decorator.entity';
+import { MailerService } from '@nestjs-modules/mailer';
+
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 @Controller('users')
 export class UsersController {
     constructor(
         private usersService: UsersService,
+        private readonly mailerService: MailerService
     ) { }
     
     // @UserRoles(Role.ADMIN)
@@ -76,6 +79,37 @@ export class UsersController {
                 body.is_active = 0
                 let data:any = await this.usersService.addUser(body)
                 if(data) {
+                    this
+                    .mailerService
+                    .sendMail({
+                      to: body.email, // list of receivers
+                      from: 'sender_email', // sender address
+                      subject: 'Sign Up EMail ✔', // Subject line
+                      text: 'Thanks for signing up you will be notified soon with access from admin', // plaintext body
+                      html: '<b>Thanks for signing up you will be notified soon with access from admin</b>', // HTML body content
+                    })
+                    .then((success) => {
+                      console.log("success email",success)
+                    })
+                    .catch((err) => {
+                      console.log("err email",err)
+                    });
+
+                    this
+                    .mailerService
+                    .sendMail({
+                      to: "sender_email", // list of receivers
+                      from: 'sender_email', // sender address
+                      subject: 'Sign Up EMail ✔', // Subject line
+                      text: `A new user has requested for signup ${body.user_name}`, // plaintext body
+                      html: `<b>A new user has requested for signup ${body.user_name}</b>`, // HTML body content
+                    })
+                    .then((success) => {
+                      console.log("success email",success)
+                    })
+                    .catch((err) => {
+                      console.log("err email",err)
+                    });
                     response.status(200).send({success:true,response:"User Added Successfully"})
                 } else {
                     response.status(403).send({success:false,message:"User Not Added Successfully"})
